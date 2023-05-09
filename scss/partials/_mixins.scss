@@ -1,0 +1,406 @@
+@mixin flexbox($align, $justify, $direction) {
+  display: flex;
+  align-items: $align;
+  justify-content: $justify;
+  flex-direction: $direction;
+  flex-wrap: wrap;
+}
+@mixin fullcol {
+  width: 100%;
+  position: relative;
+  float: left;
+}
+@mixin heading($size, $color, $transform, $weight) {
+  font-size: $size;
+  color: $color;
+  text-transform: $transform;
+  font-weight: $weight;
+}
+@mixin black_shade {
+  background: rgb(0, 0, 0);
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 1) 100%
+  );
+}
+@mixin primary_btn {
+  overflow: hidden;
+  margin-top: 15px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 3px;
+  color: #000;
+  pointer-events: auto;
+  cursor: pointer;
+  border: none;
+  padding: 10px 15px;
+  position: relative;
+  display: inline-block;
+  span {
+    display: block;
+    position: relative;
+    //mix-blend-mode: difference;
+    z-index: 10;
+  }
+  &::before,
+  &::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  &::before {
+    content: "";
+    background: $red;
+    width: 120%;
+    height: 0;
+    padding-bottom: 120%;
+    top: -110%;
+    left: -10%;
+    border-radius: 50%;
+    transform: translate3d(0, 68%, 0) scale3d(0, 0, 0);
+  }
+  &::after {
+    content: "";
+    background: $red;
+    transform: translate3d(0, -100%, 0);
+    transition: transform 0.4s cubic-bezier(0.1, 0, 0.3, 1);
+  }
+  &:hover {
+    span {
+      color: $white;
+      animation: MoveScaleUpInitial 0.3s forwards,
+        MoveScaleUpEnd 0.3s forwards 0.3s;
+    }
+    &::before {
+      transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+      transition: transform 0.4s cubic-bezier(0.1, 0, 0.3, 1);
+    }
+    &::after {
+      transform: translate3d(0, 0, 0);
+      transition-duration: 0.05s;
+      transition-delay: 0.4s;
+      transition-timing-function: linear;
+    }
+  }
+}
+@mixin btn {
+  float: left;
+  position: relative;
+  color: $bg;
+  background: $tertiary;
+  overflow: hidden;
+  border-radius: 4px;
+  font-size: 12px;
+  padding: 15px 20px;
+  transition: $transition;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  .text__center & {
+    float: none;
+  }
+  span {
+    &:first-child {
+      position: relative;
+      transition: color 0.5s cubic-bezier(0.48, 0, 0.12, 1);
+      z-index: 5;
+    }
+    &:last-child {
+      color: $tertiary;
+      display: block;
+      position: absolute;
+      bottom: 0;
+      transition: all 0.4s cubic-bezier(0.48, 0, 0.12, 1);
+      z-index: 10;
+      opacity: 0;
+      top: 50%;
+      transform: translateY(225%);
+      height: 14px;
+      line-height: 13px;
+      width: 100%;
+      text-align: center;
+      left: 0;
+    }
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -50%;
+    left: 0;
+    width: 103%;
+    height: 100%;
+    background-color: $primary;
+    -webkit-transform-origin: bottom center;
+    transform-origin: bottom center;
+    transition: transform 0.5s cubic-bezier(0.48, 0, 0.12, 1);
+    transform: skewY(9.3deg) scaleY(0);
+    z-index: 9;
+  }
+  &:hover span:last-child {
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    opacity: 1;
+    transition: all 0.8s cubic-bezier(0.48, 0, 0.12, 1);
+  }
+  &:hover:after {
+    -webkit-transform-origin: bottom center;
+    transform-origin: bottom center;
+    -webkit-transform: skewY(9.3deg) scaleY(2);
+    transform: skewY(9.3deg) scaleY(2);
+  }
+  .dark__bg &  {
+    &::after {
+      background-color: $white;
+    }
+    span {
+      &:last-child {
+        color: $primary;
+      }
+    }
+  }
+
+  header &  {
+    background: none;
+    color: $white;
+    &::after {
+      background-color: $tertiary;
+    }
+    span {
+      &:last-child {
+        color: $bg;
+      }
+    }
+  }
+
+  &.is-animating {
+    span {
+      @include flexbox(center, center , inherit );
+      i {
+        margin-right: 5px;
+      }
+    }
+  }
+  .form__box & {
+    background: $primary;
+    color: $white;
+    &::after {
+      background: $bg;
+    }
+    span {
+      &:last-child {
+        color: $tertiary;
+      }
+    }
+  }
+}
+
+@mixin btn__scalebg {
+  display: inline-block;
+  vertical-align: middle;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  overflow: hidden;
+  transition: $transition;
+  &:before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: $tertiary;
+    border-radius: 30px;
+    transform: scale(0);
+    transition-property: transform;
+    transition: $transition;
+  }
+  &:hover,
+  &:focus,
+  &:active {
+    color: $white;
+    &::before {
+      transform: scale(2);
+    }
+  }
+}
+@mixin shutter {
+  display: inline-block;
+  vertical-align: middle;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  background: none;
+  &::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: $tertiary;
+    -webkit-transform: scaleX(1);
+    transform: scaleX(1);
+    -webkit-transform-origin: 50%;
+    transform-origin: 50%;
+    -webkit-transition-property: transform;
+    transition-property: transform;
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-timing-function: ease-out;
+    transition-timing-function: ease-out;
+  }
+  &:hover {
+    &::before {
+      transform: scaleX(0);
+    }
+  }
+}
+@mixin bounce_to_top {
+  display: inline-block;
+  vertical-align: middle;
+  transform: translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  backface-visibility: hidden;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  transition-property: color;
+  transition-duration: 0.5s;
+  &::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: $red;
+    transform: scaleY(0);
+    transform-origin: 50% 100%;
+    transition-property: transform;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-out;
+  }
+  &:hover {
+    color: $white;
+    &::before {
+      transform: scaleY(1);
+      -webkit-transition-timing-function: cubic-bezier(0.52, 1.64, 0.37, 0.66);
+    }
+  }
+}
+@mixin bg_sweep_to_btm {
+  display: inline-block;
+  vertical-align: middle;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  position: relative;
+  transition: $transition;
+  &::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: $tertiary;
+    transform: scaleY(0);
+    transform-origin: 50% 0;
+    transition: $transition;
+  }
+  &:hover {
+    &::before {
+      transform: scaleY(1);
+    }
+  }
+}
+
+@mixin btn-roll {
+  letter-spacing: 1px;
+  display: inline;
+  float: left;
+  margin-top: 15px;
+  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 600;
+  color: $green;
+  text-decoration: none;
+  overflow: hidden;
+  transition: 0.3s;
+  span {
+    position: relative;
+    display: inline-block;
+    transition: transform 0.3s ease-in-out;
+    &::before {
+      position: absolute;
+      top: 100%;
+      color: $black;
+      content: attr(data-hover);
+      transform: translate3d(0, 0, 0);
+    }
+    &:hover,
+    &:focus {
+      transform: translateY(-100%);
+    }
+  }
+}
+@mixin btn-gradient {
+  color: #fff;
+  display: inline-block;
+  padding: 12px 35px;
+  background: linear-gradient(to right, #f05874 0%, #fc6a2a 100%);
+  border-radius: 30px;
+}
+
+@mixin btn_txt {
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 1px;
+  &:after {
+    content: "\ebb5";
+    transition: all 0.25s;
+    opacity: 0;
+    margin-left: -0.3em;
+    font-family: "unicons-line";
+    font-size: 20px;
+    position: relative;
+    top: 3px;
+  }
+  &:hover {
+    &:after {
+      opacity: 1;
+      margin-left: 0.1em;
+    }
+  }
+}
+
+//keyframes
+@keyframes MoveScaleUpInitial {
+  to {
+    transform: translate3d(0, -105%, 0) scale3d(1, 2, 1);
+    opacity: 0;
+  }
+}
+
+@keyframes MoveScaleUpEnd {
+  from {
+    transform: translate3d(0, 100%, 0) scale3d(1, 2, 1);
+    opacity: 0;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}

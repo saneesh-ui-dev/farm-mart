@@ -1,0 +1,204 @@
+.md-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 20%;
+  height: auto;
+  z-index: 999999;
+  visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateX(-50%) translateY(-50%);
+  &.is-wide {
+    width: 45%;
+    .md-content {
+      background: $tertiary;
+      background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, #fff200 10px ), repeating-linear-gradient( #eee20355, #eee203 );
+      padding: 15px 0;
+    }
+  }
+  &.default__modal {
+    width: 30%;
+    .md-content {
+      background: $tertiary;
+      background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, #fff200 10px ), repeating-linear-gradient( #eee203, #eee203 );
+      padding: 15px;
+      form {
+        @include fullcol();
+        background: $white;
+        padding: 15px;
+        box-shadow: 0 0 20px rgba($bg, .2);
+        border-radius: 10px;
+        h3 {
+          font-size: 25px;
+          font-weight: 700;
+          color: $primary;
+          small {
+            @include fullcol();
+            font-size: 12px;
+            font-weight: 500;
+            color: $bg;
+          }
+        }
+      }
+    }
+  }
+}
+.md-show {
+  visibility: visible;
+}
+.md-overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  opacity: 0;
+  //pointer-events: none;
+  background: rgba(0, 0, 0, 0.8);
+  transition: $transition;
+}
+.md-show ~ .md-overlay {
+  opacity: 1;
+  visibility: visible;
+}
+.md-content {
+  color: $black;
+  background: $white;
+  position: relative;
+  border-radius: 10px;
+  float: left;
+  transform: scale(0.7);
+  opacity: 0;
+  transition: $transition;
+  h2 {
+    margin: 0;
+    padding: 15px;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 600;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 3px 3px 0 0;
+  }
+  .col {
+    padding: 15px;
+    margin: 0;
+  }
+  .md-show & {
+    transform: scale(1);
+    opacity: 1;
+  }
+  button {
+    cursor: pointer;
+    margin-top: 15px;
+  }
+}
+.md-close {
+  position: absolute;
+  top: -5px;
+  right: 5px;
+  color: $black;
+  font-size: 30px;
+  border: 0;
+  cursor: pointer;
+  transition: $transition;
+  background: none;
+  &:hover {
+    transform: rotate(180deg);
+    color: $primary;
+  }
+  .is-wide & {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: $primary;
+    top: -40px;
+    right: -15px;
+    &:hover {
+      background: $white;
+    }
+  }
+}
+.md-show .md-content {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.tooltip_modal {
+  .md-content {
+    background: $primary;
+    border-radius: 10px;
+    h2 {
+      @include heading(20px, $white, uppercase, 600);
+      background: none;
+      border-radius: 0;
+    }
+    .col {
+      padding: 15px;
+      margin: 0;
+      background: $white;
+      border-radius: 10px;
+    }
+    .md-show & {
+      transform: scale(1);
+      opacity: 1;
+    }
+    button {
+      border: 0;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+  }
+  .md-close {
+    position: absolute;
+    top: 0;
+    right: 15px;
+    width: auto;
+    height: auto;
+    background: none;
+    color: #fff;
+    font-size: 30px;
+    text-align: center;
+    line-height: 1;
+    border: 0;
+    border-radius: 50%;
+    &:hover {
+      color: $black;
+    }
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .md-modal {
+    width: 30%;
+    height: 100vh;
+    padding: 30px;
+    .md-content {
+      height: 100%;
+      overflow-y: scroll;
+    }
+  }
+}
+@media screen and (max-width: 1024px) {
+  .md-modal {
+    width: 35%;
+  }
+}
+@media screen and (max-width: 768px) {
+  .md-modal {
+    width: 45%;
+  }
+}
+@media screen and (max-width: 767px) {
+  .md-modal {
+    width: 100%;
+    padding: 30px;
+    height: 100vh;
+    .md-content {
+      height: 100%;
+      overflow-y: scroll;
+    }
+  }
+}

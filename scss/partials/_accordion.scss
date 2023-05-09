@@ -1,0 +1,58 @@
+.smk_accordion {
+  @include fullcol();
+  position: relative;
+  padding: 0;
+  list-style: none;
+  .accordion_in {
+    position: relative;
+    z-index: 10;
+    overflow: hidden;
+    @include fullcol();
+    margin-top: 15px;
+    .acc_head {
+      @include fullcol();
+      padding: 15px;
+      font-weight: 600;
+      color: $black;
+      background: white;
+      border: $shade 1px solid;
+      cursor: pointer;
+      border-radius: 5px;
+      .acc_icon_expand {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        margin-top: -17px;
+        font-weight: 400;
+        font-size: 20px;
+        &::before {
+          content: "\e98c";
+          font-family: unicons-line;
+        }
+      }
+    }
+    .acc_content {
+      background: $white;
+      padding: 15px;
+      //margin: 15px 0;
+      @include fullcol();
+      font-size: 14px;
+      p:nth-child(1) {
+        margin: 0;
+      }
+    }
+  }
+  .acc_active .acc_head {
+    color: $primary;
+    .acc_icon_expand::before {
+      content: "\e983";
+      font-family: unicons-line;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .faq__list .smk_accordion .accordion_in {
+    width: 100%;
+  }
+}
